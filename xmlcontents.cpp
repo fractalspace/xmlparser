@@ -1,6 +1,7 @@
 #include <cstdio>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
+#include <iostream>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
@@ -17,7 +18,11 @@ print_element_names(xmlNode * a_node)
 		}
 		else if (cur_node->content)
 		{
-			printf("\tcontent: [%s]\n", xmlNodeGetContent(cur_node));
+			std::string s = (char*)xmlNodeGetContent(cur_node);
+			s.erase(s.find_last_not_of(" \n\r\t") + 1);
+			//s.erase(s.find_first_of(" \n\r\t") + 1);
+			std::cout << "\tcontents:[" << s << "]" << std::endl;
+			//printf("\tcontent: [%s]\n", s.c_str());
 		}
 		print_element_names(cur_node->children);
 	}
